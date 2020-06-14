@@ -78,6 +78,7 @@ namespace List1Exercise9
             Console.WriteLine(reader.ReadToEnd());
             reader.DiscardBufferedData();
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
             while (!reader.EndOfStream)
             {
                 char nextchar = (char)reader.Read();

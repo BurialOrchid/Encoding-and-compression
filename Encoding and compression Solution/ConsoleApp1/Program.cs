@@ -8,8 +8,13 @@ namespace ConsoleApp1
     {
         private static void Main(string[] args)
         {
+            if (args is null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
+
             Console.WriteLine("Hello World!");
-            double entropy = 0;
+            double entropy;
 
             entropy = -0.95 * Math.Log2(0.95) - 0.05 * Math.Log2(0.05);
             Console.WriteLine(entropy);

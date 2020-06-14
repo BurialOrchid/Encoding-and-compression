@@ -12,11 +12,11 @@ namespace List1Exercise9
             public Myletter(char letter, int num)
             {
                 this.Letter = letter;
-                this.Number = num;
+                this.Quantity = num;
             }
 
             public char Letter { get; set; }
-            public int Number { get; set; }
+            public int Quantity { get; set; }
             public double Probability { get; set; }
         }
 
@@ -28,17 +28,17 @@ namespace List1Exercise9
                 {
                     case '\n':
                         {
-                            Console.WriteLine($"NEWLINE - {item.Number} - {item.Probability}");
+                            Console.WriteLine($"NEWLINE - {item.Quantity} - {item.Probability}");
                             break;
                         }
                     case ' ':
                         {
-                            Console.WriteLine($"SPACE - {item.Number} - {item.Probability}");
+                            Console.WriteLine($"SPACE - {item.Quantity} - {item.Probability}");
                             break;
                         }
                     default:
                         {
-                            Console.WriteLine($"{item.Letter} - {item.Number} - {item.Probability}");
+                            Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability}");
                             break;
                         }
                 }
@@ -51,11 +51,11 @@ namespace List1Exercise9
             long numOfChars = 0;
             foreach (Myletter item in list)
             {
-                numOfChars += item.Number;
+                numOfChars += item.Quantity;
             }
             foreach (Myletter item in list)
             {
-                item.Probability = Math.Round((double)item.Number / numOfChars * 100, 2);
+                item.Probability = Math.Round((double)item.Quantity / numOfChars * 100, 2);
             }
         }
 
@@ -73,14 +73,14 @@ namespace List1Exercise9
                 int index = letters.FindIndex(x => x.Letter == nextchar);
                 if (index != -1)
                 {
-                    letters[index].Number++;
+                    letters[index].Quantity++;
                 }
                 else
                 {
                     letters.Add(new Myletter(nextchar, 1));
                 }
             }
-            letters = letters.OrderBy(x => x.Number).ToList();
+            letters = letters.OrderBy(x => x.Quantity).ToList();
             letters.Reverse();
             CalculateProbability(letters);
             WriteTable(letters);
