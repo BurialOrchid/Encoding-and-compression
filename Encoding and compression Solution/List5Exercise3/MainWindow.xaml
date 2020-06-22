@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:List5Exercise3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="780">
+        Title="MainWindow" Height="705" Width="750">
     <Grid Margin="0,0,0,0">
-        <Image x:Name="ImagePanel" Width="640" Height="500" />
+        <Image x:Name="ImagePanel" Height="500" Margin="0,118,0,116" HorizontalAlignment="Stretch" />
+        <Button x:Name="LoadFileBtn" Content="Load Raw File" HorizontalAlignment="Left" Height="28" Margin="41,14,0,0" VerticalAlignment="Top" Width="103" Click="LoadFileBtn_Click" />
+        <Label x:Name="WidthInputLbl" Content="Set width:" HorizontalAlignment="Left" Margin="179,13,0,0" VerticalAlignment="Top" />
+        <Label x:Name="HeightInputLbl" Content="Set height:" HorizontalAlignment="Left" Margin="367,13,0,0" VerticalAlignment="Top" />
+        <Label x:Name="SizeLbl" Content="Selected Size" HorizontalAlignment="Left" Height="26" Margin="166,43,0,0" VerticalAlignment="Top" Width="83" />
+        <Label x:Name="SizeValueLbl" Content="0x0" HorizontalAlignment="Left" Height="26" Margin="254,43,0,0" VerticalAlignment="Top" Width="83" />
+
+        <TextBox x:Name="WidthTxtBox" HorizontalAlignment="Left" Margin="246,14,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="98" Height="23" GotFocus="TxtBox_GotFocus" />
+        <TextBox x:Name="HeightTxtBox" HorizontalAlignment="Left" Margin="440,14,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="98" Height="23" GotFocus="TxtBox_GotFocus" />
+
+        <Button x:Name="SizeConfBtn" Content="ConfirmSize" HorizontalAlignment="Left" Height="23" Margin="560,16,0,0" VerticalAlignment="Top" Width="127" Click="SizeConfBtn_Click" />
+        <Label x:Name="FileNameLbl" Content="Selected file:" HorizontalAlignment="Left" Margin="41,51,0,0" VerticalAlignment="Top" />
+        <Label x:Name="FileNameValueLbl" Content="none" HorizontalAlignment="Left" Margin="41,77,0,0" VerticalAlignment="Top" Width="200" />
+        <Button x:Name="ShowPictureBtn" Content="Show Picture" HorizontalAlignment="Left" Height="26" Margin="560,51,0,0" VerticalAlignment="Top" Width="127" Click="ShowPictureBtn_Click" />
+        <Button x:Name="DifferenceImageBtn" Content="Difference table image" HorizontalAlignment="Left" Height="27" Margin="41,634,0,0" VerticalAlignment="Top" Width="144" Click="DifferenceImageBtn_Click" />
+        <Button x:Name="OriginalImageBtn" Content="Original from difference" HorizontalAlignment="Left" Height="27" Margin="246,634,0,0" VerticalAlignment="Top" Width="144" Click="OriginalImageBtn_Click" />
+        <Button x:Name="SaveDifferenceBtn" Content="Save Difference Image" HorizontalAlignment="Left" Height="27" Margin="560,634,0,0" VerticalAlignment="Top" Width="150" Click="SaveDifferenceBtn_Click" />
     </Grid>
 </Window>
