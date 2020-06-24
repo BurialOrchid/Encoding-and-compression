@@ -17,8 +17,6 @@ namespace List2Exercise4
             {
                 throw new ArgumentNullException(nameof(args));
             }
-
-            Console.WriteLine("Hello World!");
             Random rand = new Random();
             StringBuilder tekst;
             tekst = new StringBuilder();
@@ -41,8 +39,6 @@ namespace List2Exercise4
 
             Console.WriteLine("Click to close program");
             Console.ReadKey();
-
-            //  WriteTable(CalculateProbabilityModel("sameprobability.txt"));
         }
     }
 }

@@ -1,0 +1,5 @@
+﻿abcd
+adcb
+abdc
+bcda
+acdb

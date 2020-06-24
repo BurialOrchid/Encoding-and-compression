@@ -6,73 +6,73 @@ using System.Text;
 
 namespace List2Exercise4c
 {
+    internal class Myletter
+    {
+        public Myletter(char letter, int num)
+        {
+            this.Letter = letter;
+            this.Quantity = num;
+        }
+
+        public char Letter { get; set; }
+        public int Quantity { get; set; }
+        public double Probability { get; set; }
+    }
+
+    internal class NextLetter : Myletter
+    {
+        public NextLetter(char letter, int num, char previousChar) : base(letter, num)
+        {
+            PreviousLetters = new List<Myletter>
+            {
+                //ProbabilityBasedOnLetter = new List<double>();
+                new Myletter(previousChar, 1)
+            };
+        }
+
+        public List<Myletter> PreviousLetters { get; set; }
+        //public List<double> ProbabilityBasedOnLetter { get; set; }
+
+        public void AddPreviousLetter(char previous)
+        {
+            int index = PreviousLetters.FindIndex(x => x.Letter == previous);
+            if (index != -1)
+            {
+                PreviousLetters[index].Quantity++;
+            }
+            else
+            {
+                PreviousLetters.Add(new Myletter(previous, 1));
+            }
+        }
+
+        public void CalcuclateProbabilityBasedOnPrevious()
+        {
+            int sumOfPreviousLetters = PreviousLetters.Sum(x => x.Quantity);
+
+            foreach (Myletter previousLetter in PreviousLetters)
+            {
+                previousLetter.Probability = ((double)previousLetter.Quantity / sumOfPreviousLetters * Probability);
+            }
+        }
+
+        public void WriteProbabilityTable()
+        {
+            Console.WriteLine($"FOR LETTER {this.Letter} with probability {this.Probability}");
+            foreach (Myletter item in PreviousLetters)
+            {
+                Console.WriteLine($"{item.Letter}-letter {item.Quantity}-quant. {item.Probability}-prob. ");
+            }
+            Console.WriteLine();
+        }
+    }
+
     internal class Program
     {
-        private class Myletter
-        {
-            public Myletter(char letter, int num)
-            {
-                this.Letter = letter;
-                this.Quantity = num;
-            }
-
-            public char Letter { get; set; }
-            public int Quantity { get; set; }
-            public double Probability { get; set; }
-        }
-
-        private class NextLetter : Myletter
-        {
-            public NextLetter(char letter, int num, char previousChar) : base(letter, num)
-            {
-                PreviousLetters = new List<Myletter>();
-                //ProbabilityBasedOnLetter = new List<double>();
-                PreviousLetters.Add(new Myletter(previousChar, 1));
-            }
-
-            public List<Myletter> PreviousLetters { get; set; }
-            //public List<double> ProbabilityBasedOnLetter { get; set; }
-
-            public void AddPreviousLetter(char previous)
-            {
-                int index = PreviousLetters.FindIndex(x => x.Letter == previous);
-                if (index != -1)
-                {
-                    PreviousLetters[index].Quantity++;
-                }
-                else
-                {
-                    PreviousLetters.Add(new Myletter(previous, 1));
-                }
-            }
-
-            public void CalcuclateProbabilityBasedOnPrevious()
-            {
-                int sumOfPreviousLetters = PreviousLetters.Sum(x => x.Quantity);
-
-                foreach (Myletter previousLetter in PreviousLetters)
-                {
-                    previousLetter.Probability = ((double)previousLetter.Quantity / sumOfPreviousLetters * Probability);
-                }
-            }
-
-            public void WriteProbabilityTable()
-            {
-                Console.WriteLine($"FOR LETTER {this.Letter} with probability {this.Probability}");
-                foreach (Myletter item in PreviousLetters)
-                {
-                    Console.WriteLine($"{item.Letter}-letter {item.Quantity}-quant. {item.Probability}-prob. ");
-                }
-                Console.WriteLine();
-            }
-        }
-
         private static List<Myletter> CalculatePropbabilityForFirstLetter(string Path)
         {
             List<Myletter> FirstLetters = new List<Myletter>();
             StreamReader reader = new StreamReader(Path);
-
-            //Console.WriteLine(reader.ReadToEnd());
 
             while (!reader.EndOfStream)
             {
@@ -94,8 +94,6 @@ namespace List2Exercise4c
                     reader.Read();
                 }
             }
-            FirstLetters = FirstLetters.OrderBy(x => x.Quantity).ToList();
-            FirstLetters.Reverse();
 
             long numOfChars = FirstLetters.Sum(x => x.Quantity);
             foreach (Myletter item in FirstLetters)
@@ -140,8 +138,8 @@ namespace List2Exercise4c
                 item.Probability = (double)item.Quantity / numOfChars;
                 item.CalcuclateProbabilityBasedOnPrevious();
             }
-            SecondLetters = SecondLetters.OrderBy(x => x.Quantity).ToList();
-            SecondLetters.Reverse();
+            //  SecondLetters = SecondLetters.OrderBy(x => x.Quantity).ToList();
+            // SecondLetters.Reverse();
             return SecondLetters;
         }
 
@@ -163,31 +161,28 @@ namespace List2Exercise4c
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string filePath = "../../../moje.txt";
+            List<Myletter> FirstLetters = CalculatePropbabilityForFirstLetter(filePath);
+            List<NextLetter> SecondLetters = CalculatePropbabilityForNextLetter(filePath, 2);
+            List<NextLetter> ThirdLetters = CalculatePropbabilityForNextLetter(filePath, 3);
+            List<NextLetter> FourthLetters = CalculatePropbabilityForNextLetter(filePath, 4);
 
-            List<Myletter> FirstLetters = CalculatePropbabilityForFirstLetter("../../../4wyrazy.txt");
             WriteTable(FirstLetters);
             Console.WriteLine();
-            List<NextLetter> SecondLetters = CalculatePropbabilityForNextLetter("../../../4wyrazy.txt", 2);
             WriteTable(SecondLetters);
             Console.WriteLine();
-            List<NextLetter> ThirdLetters = CalculatePropbabilityForNextLetter("../../../4wyrazy.txt", 3);
             WriteTable(ThirdLetters);
             Console.WriteLine();
-            List<NextLetter> FourthLetters = CalculatePropbabilityForNextLetter("../../../4wyrazy.txt", 4);
             WriteTable(FourthLetters);
             Console.WriteLine();
             Random rand = new Random();
             StringBuilder tekst;
-            tekst = new StringBuilder();
+
             double sum;
             double r;
-            char previouschar = ' ';
-
             for (int i = 0; i < 200; i++)
             {
                 tekst = new StringBuilder();
-
                 sum = 0;
                 r = rand.NextDouble();
                 foreach (Myletter myletter in FirstLetters)
@@ -195,7 +190,7 @@ namespace List2Exercise4c
                     if (r < (sum + myletter.Probability))
                     {
                         tekst.Append(myletter.Letter);
-                        previouschar = myletter.Letter;
+                        char previouschar = myletter.Letter;
                         break;
                     }
                     else

@@ -28,17 +28,27 @@ namespace List1Exercise9
                 {
                     case '\n':
                         {
-                            Console.WriteLine($"NEWLINE - {item.Quantity} - {item.Probability}");
+                            Console.WriteLine($"Letter-" + @"\n" + $"   Quantity-{item.Quantity}    Probability-{item.Probability}%");
                             break;
                         }
                     case ' ':
                         {
-                            Console.WriteLine($"SPACE - {item.Quantity} - {item.Probability}");
+                            Console.WriteLine($"Letter-SPACE    Quantity-{item.Quantity}    Probability-{item.Probability}%");
+                            break;
+                        }
+                    case '\r':
+                        {
+                            Console.WriteLine($"Letter-" + @"\r" + $"    Quantity -{item.Quantity}    Probability-{item.Probability}%");
+                            break;
+                        }
+                    case '\t':
+                        {
+                            Console.WriteLine($"Letter-" + @"\t" + $"    Quantity-{item.Quantity}    Probability-{item.Probability}%");
                             break;
                         }
                     default:
                         {
-                            Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability}");
+                            Console.WriteLine($"Letter-{item.Letter}    Quantity-{item.Quantity}    Probability-{item.Probability}%");
                             break;
                         }
                 }
@@ -61,12 +71,25 @@ namespace List1Exercise9
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             List<Myletter> letters = new List<Myletter>();
-            StreamReader reader = new StreamReader("../../../Green Eggs and Ham.txt");
-            Console.WriteLine(reader.ReadToEnd());
+            StreamReader reader;
+            string filename = "";
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Insert file name with extension");
+                filename = Console.ReadLine();
+                Console.WriteLine();
+            }
+            while (!File.Exists(filename));
+
+            reader = new StreamReader($"{filename}");
+
+            Console.WriteLine(reader.ReadToEnd() + '\n');
             reader.DiscardBufferedData();
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
             while (!reader.EndOfStream)
             {
                 char nextchar = (char)reader.Read();

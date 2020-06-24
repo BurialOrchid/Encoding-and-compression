@@ -26,9 +26,7 @@ namespace List2Exercise4b
         {
             List<Myletter> letters = new List<Myletter>();
             StreamReader reader = new StreamReader(Filepath);
-            //Console.WriteLine(reader.ReadToEnd());
-            reader.DiscardBufferedData();
-            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
             while (!reader.EndOfStream)
             {
                 char nextchar = (char)reader.Read();
@@ -53,7 +51,7 @@ namespace List2Exercise4b
 
             foreach (Myletter item in letters)
             {
-                item.Probability = (double)item.Quantity / numOfChars;
+                item.Probability = Math.Round((double)item.Quantity / numOfChars, 4);
             }
 
             return letters;
@@ -63,7 +61,7 @@ namespace List2Exercise4b
         {
             foreach (Myletter item in list)
             {
-                Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability}");
+                Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability}%");
             }
         }
 
@@ -80,9 +78,9 @@ namespace List2Exercise4b
 
             for (int i = 0; i < 200; i++)
             {
-                double sum = 0;
                 for (int j = 0; j < 4; j++)
                 {
+                    double sum = 0;
                     foreach (Myletter letter in LettersFile)
                     {
                         if (r < (sum + letter.Probability))

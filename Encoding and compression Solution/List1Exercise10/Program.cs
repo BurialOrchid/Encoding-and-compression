@@ -28,12 +28,22 @@ namespace List1Exercise9
                 {
                     case '\n':
                         {
-                            Console.WriteLine($"NEWLINE - {item.Quantity} - {item.Probability}");
+                            Console.WriteLine($"LINE FEED - {item.Quantity} - {item.Probability}");
                             break;
                         }
                     case ' ':
                         {
                             Console.WriteLine($"SPACE - {item.Quantity} - {item.Probability}");
+                            break;
+                        }
+                    case '\r':
+                        {
+                            Console.WriteLine($"CARRIAGE RETURN - {item.Quantity} - {item.Probability}");
+                            break;
+                        }
+                    case '\t':
+                        {
+                            Console.WriteLine($"TAB - {item.Quantity} - {item.Probability}");
                             break;
                         }
                     default:
@@ -72,10 +82,22 @@ namespace List1Exercise9
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             List<Myletter> letters = new List<Myletter>();
-            StreamReader reader = new StreamReader("../../../Green Eggs and Ham.txt");
-            Console.WriteLine(reader.ReadToEnd());
+            StreamReader reader;
+            string filename = "";
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Insert file name with extension");
+                filename = Console.ReadLine();
+                Console.WriteLine();
+            }
+            while (!File.Exists(filename));
+
+            reader = new StreamReader($"{filename}");
+
+            Console.WriteLine(reader.ReadToEnd() + '\n');
             reader.DiscardBufferedData();
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
@@ -96,7 +118,8 @@ namespace List1Exercise9
             letters.Reverse();
             CalculateProbability(letters);
             WriteTable(letters);
-            Console.WriteLine(CalculateEnthropy(letters));
+
+            Console.WriteLine($"Enthropy {CalculateEnthropy(letters)}");
 
             Console.ReadKey();
         }

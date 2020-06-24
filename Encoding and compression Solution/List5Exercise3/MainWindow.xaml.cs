@@ -147,10 +147,11 @@ namespace List5Exercise3
                 Title = "Save Difference Table"
             };
             saveFileDialog.ShowDialog();
-            if (saveFileDialog.FileName != "")
+            if (string.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                File.WriteAllBytes(saveFileDialog.FileName, differenceBytes);
+                return;
             }
+            File.WriteAllBytes(saveFileDialog.FileName, differenceBytes);
         }
     }
 }
