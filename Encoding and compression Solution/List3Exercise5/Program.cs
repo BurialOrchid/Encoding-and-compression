@@ -38,59 +38,23 @@ namespace List3Exercise5a
 
     internal partial class Program
     {
-        private static void WriteTable(List<Myletter> list)
-        {
-            foreach (Myletter item in list)
-            {
-                switch (item.Letter)
-                {
-                    case '\n':
-                        {
-                            Console.WriteLine($"Letter-" + @"\n" + $"   Quantity-{item.Quantity}    Probability-{item.Probability}%");
-                            break;
-                        }
-                    case ' ':
-                        {
-                            Console.WriteLine($"Letter-" + @"\sp" + $"   Quantity-{item.Quantity}    Probability-{item.Probability}%");
-                            break;
-                        }
-                    case '\r':
-                        {
-                            Console.WriteLine($"Letter-" + @"\r" + $"    Quantity-{item.Quantity}    Probability-{item.Probability}%");
-                            break;
-                        }
-                    case '\t':
-                        {
-                            Console.WriteLine($"Letter-" + @"\t" + $"    Quantity-{item.Quantity}    Probability-{item.Probability}%");
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine($"Letter-{item.Letter}    Quantity-{item.Quantity}    Probability-{item.Probability}%");
-                            break;
-                        }
-                }
-                Console.WriteLine("-----");
-            }
-        }
-
-        private static void CalculateProbability(List<Myletter> list)
+        private static void CalculateProbability(List<Myletter> letters)
         {
             long numOfChars = 0;
-            foreach (Myletter item in list)
+            foreach (Myletter item in letters)
             {
                 numOfChars += item.Quantity;
             }
-            foreach (Myletter item in list)
+            foreach (Myletter item in letters)
             {
                 item.Probability = Math.Round((double)item.Quantity / numOfChars, 4);
             }
         }
 
-        private static double CalculateEnthropy(List<Myletter> list)
+        private static double CalculateEnthropy(List<Myletter> letters)
         {
             double entropy = 0;
-            foreach (Myletter item in list)
+            foreach (Myletter item in letters)
             {
                 entropy += (item.Probability) * Math.Log2(1 / (item.Probability));
             }
@@ -130,7 +94,7 @@ namespace List3Exercise5a
             List<Myletter> letters = new List<Myletter>();
             List<Node> nodes = new List<Node>();
 
-            StreamReader reader = new StreamReader("../../../moje.txt");
+            StreamReader reader = new StreamReader("../../../4wyrazy.txt");
 
             while (!reader.EndOfStream)
             {
@@ -146,7 +110,7 @@ namespace List3Exercise5a
                 }
             }
             CalculateProbability(letters);
-            WriteTable(letters);
+
             double enthropy = CalculateEnthropy(letters);
             Console.WriteLine($"Enthropy {enthropy}\n");
 
@@ -168,6 +132,7 @@ namespace List3Exercise5a
                 parent.LeftChild.Parent = parent;
                 nodes.Add(parent);
             }
+
             Node root = nodes[0];
             nodes.RemoveAt(0);
             PreOrder_Code(root, '0', "");
@@ -176,7 +141,7 @@ namespace List3Exercise5a
 
             letters.ForEach(x => x.BinaryCode = nodes.Find(y => y.Letter.Letter == x.Letter).BinaryCode);
 
-            // letters.ForEach(x => Console.WriteLine($"Letter-{x.Letter}  Code-{x.BinaryCode}"));
+            letters.ForEach(x => Console.WriteLine($"Letter-{x.Letter}  Code-{x.BinaryCode}"));
             double meanCodeLength = MeanCodeLength(letters);
             Console.WriteLine($"Mean code length:{meanCodeLength}");
             Console.WriteLine($"Code Redundancy{meanCodeLength - enthropy}");

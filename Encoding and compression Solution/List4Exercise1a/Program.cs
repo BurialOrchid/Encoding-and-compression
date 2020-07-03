@@ -128,50 +128,60 @@ namespace List4Exercise4a
         {
             foreach (Myletter item in list)
             {
-                Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability} - {item.Distributor}");
+                Console.WriteLine($"{item.Letter} - {item.Quantity} - {item.Probability}% - {item.Distributor}");
             }
         }
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             List<Myletter> letters = new List<Myletter>();
-            StreamReader reader = new StreamReader("../../../Test.txt");
-            Console.WriteLine(reader.ReadToEnd());
-            reader.DiscardBufferedData();
-            reader.BaseStream.Seek(0, SeekOrigin.Begin);
-            while (!reader.EndOfStream)
+            string enteredText = "";
+
+            Console.WriteLine("Please type in your text:");
+            enteredText = Console.ReadLine();
+
+            foreach (char character in enteredText)
             {
-                char nextchar = (char)reader.Read();
-                if (Char.IsLetterOrDigit(nextchar))
+                int index = letters.FindIndex(x => x.Letter == character);
+                if (index != -1)
                 {
-                    int index = letters.FindIndex(x => x.Letter == nextchar);
-                    if (index != -1)
-                    {
-                        letters[index].Quantity++;
-                    }
-                    else
-                    {
-                        letters.Add(new Myletter(nextchar, 1));
-                    }
+                    letters[index].Quantity++;
+                }
+                else
+                {
+                    letters.Add(new Myletter(character, 1));
                 }
             }
-            // letters = letters.OrderBy(x => x.Quantity).ToList();
-            // letters.Reverse();
+
+            letters = letters.OrderBy(x => x.Quantity).Reverse().ToList();
+
             CalculateProbability(letters);
             CalculateDistributor(letters);
             WriteTable(letters);
-            Console.WriteLine(CalculateEnthropy(letters));
-            Console.WriteLine("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
 
-            string word = "acba";
-            double sign = Coder.ArithmeticCoding(letters, word);
-            Console.WriteLine($"Sign for word {word} = {sign}");
-            Console.WriteLine($"Encoded word for sign {sign} is {Decoder.ArithmeticDecoding(letters, sign, word.Length)}");
+            Console.WriteLine($"Enthropy: {CalculateEnthropy(letters)}\n");
 
-            // Console.WriteLine($"10 letter code for sign 0.63215699");
-            // Console.WriteLine(Decoder.ArithmeticDecoding(letters, 0.63215699, 10));
+            double sign = Coder.ArithmeticCoding(letters, enteredText);
+            Console.WriteLine($"Sign for entered text = {sign}\n");
 
+            Console.WriteLine("Would you like to decode this sign? y/n");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.Y:
+                    {
+                        Console.WriteLine($"\nDecoded word for sign {sign} = {Decoder.ArithmeticDecoding(letters, sign, enteredText.Length)}");
+                    }
+                    break;
+
+                case ConsoleKey.N:
+                    { Console.WriteLine("\nThank You for using this program."); }
+                    break;
+
+                default:
+                    break;
+            }
+
+            Console.WriteLine("\nPress any key to close program");
             Console.ReadKey();
         }
     }
